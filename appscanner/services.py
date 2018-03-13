@@ -1,10 +1,11 @@
 import datetime
 import os
+from lxml import etree
+
 from tapioca_trustwave import Trustwave
-from tapioca.exceptions import ClientError
 
 from appscanner.exceptions import AppscannerClientError
-from appscanner.model import Assessments, AssessmentRuns, AssessmentRunResults
+from appscanner.model.assessment_runs import AssessmentRun, AssessmentRuns
 from .validators import validate_uuid4, validate_application_name
 
 yesterday = (datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime('%Y-%m-%dT%H:%MhZ')
@@ -14,6 +15,7 @@ client = os.environ.get('TRUSTWAVE_APPSCANNER_CLIENT')
 customer = os.environ.get('TRUSTWAVE_APPSCANNER_CUSTOMER')
 
 api = Trustwave(server=server, client=client, customer=customer)
+STATUS_OK = 0
 
 
 def trim_encoding_declaration(xml):
@@ -82,24 +84,22 @@ def get_current_assessment_run_id(application_id, assessment_id, get_exclude_run
 
     params = {
         'getExcludedRuns': get_exclude_runs,
-        # Flag that if true includes runs who’s results are excluded from the Dashboard in the results. By default, this flag is set to false.
         'startDateTime': start_date_time
     }
 
     request = api.get_assessment_runs(application_id=application_id,
                                       assessment_id=assessment_id).get(data=params)
-    assessment_data = request().data
+    assessment_run_results_data = request().data
 
-    status = assessment_data.get('status-code')
-    if status == 0:
-        valid_xml = assessment_data.get('assessment-runs')
-        run_info = AssessmentRun.from_etree(etree.XML(valid_xml.encode('utf-8')))
+    status_code = assessment_run_results_data.get('status-code')
+    if status_code == STATUS_OK:
+        assessment_run_results = trim_encoding_declaration(assessment_run_results_data.get('assessment-runs'))
+        run_info = AssessmentRuns.from_etree(etree.XML(assessment_run_results))
 
-        for assessment_run in run_info.AssessmentRuns:
+        for assessment_run in run_info.data:
             if assessment_run.Status == 'running':
-                return assessment_run.AssessmentRunId
-                # Caso existão duas execuções rodando para a mesma combinação de (application x assessment)
-                # retorna a primeira *Mais antiga em execução
+                oldest_assessment_run_id = assessment_run.AssessmentRunId
+                return oldest_assessment_run_id
 
     return None
 
