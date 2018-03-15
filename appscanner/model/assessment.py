@@ -1,6 +1,6 @@
 from collections import UserList
 
-from lxml import etree
+
 
 
 class Assessment:

@@ -1,5 +1,4 @@
 from collections import UserList
-from datetime import datetime
 
 from lxml import etree
 
@@ -53,17 +52,22 @@ class AssessmentRun:
 
         assessment_run_id = process_text_element(elem.find('AssessmentRunId'))
         start_time = process_datetime_element(elem.find('StartTime'))
-        estimated_start_time = process_datetime_element(elem.find('EstimatedStartTime'))
+        estimated_start_time = process_datetime_element(
+            elem.find('EstimatedStartTime'))
         end_time = process_datetime_element(elem.find('EndTime'))
         status = process_text_element(elem.find('Status'))
         pages_visited = process_int_element(elem.find('PagesVisited'))
         total_HARM = process_int_element(elem.find('TotalHARM'))
         ASM_status = process_text_element(elem.find('ASMStatus'))
         progress = process_text_element(elem.find('Progress'))
-        low_vulnerability_score = process_int_element(elem.find('LowVulnerabilityScore'))
-        med_vulnerability_score = process_int_element(elem.find('MedVulnerabilityScore'))
-        high_vulnerability_score = process_int_element(elem.find('HighVulnerabilityScore'))
-        approximate_harm_score = process_int_element(elem.find('ApproximateHarmScore'))
+        low_vulnerability_score = process_int_element(
+            elem.find('LowVulnerabilityScore'))
+        med_vulnerability_score = process_int_element(
+            elem.find('MedVulnerabilityScore'))
+        high_vulnerability_score = process_int_element(
+            elem.find('HighVulnerabilityScore'))
+        approximate_harm_score = process_int_element(
+            elem.find('ApproximateHarmScore'))
         pages_seen = process_int_element(elem.find('PagesSeen'))
         time_elapsed = process_text_element(elem.find('TimeElapsed'))
         time_remaining = process_text_element(elem.find('TimeRemaining'))

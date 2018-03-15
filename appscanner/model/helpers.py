@@ -3,6 +3,15 @@ from re import match
 from datetime import datetime
 
 
+def process_nested_text_element(root, path):
+    elem = root
+    for dir in path.split('.'):
+        if not elem.find(dir):
+            return None
+        elem = elem.find(dir)
+    return process_text_element(elem)
+
+
 def process_text_element(xml_element):
     try:
         if xml_element.text:

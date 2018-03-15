@@ -3,7 +3,7 @@ from collections import UserList
 from lxml import etree
 
 from .helpers import process_datetime_element, process_int_element, \
-    process_text_element
+    process_text_element, process_nested_text_element
 
 
 class SmartAttackInfo:
@@ -209,7 +209,8 @@ class AssessmentRunInfo:
 class AssessmentRunData:
     def __init__(self, request_id, assessment_run_id, assessment_name,
                  application_name, application_id, application_url,
-                 assessment_run_info, smart_attacks, pages_visited):
+                 assessment_run_info, smart_attacks, pages_visited,
+                 status_analysis):
         self.RequestId = request_id
         self.AssessmentRunId = assessment_run_id
         self.AssessmentName = assessment_name
@@ -219,6 +220,7 @@ class AssessmentRunData:
         self.AssessmentRunInfo = assessment_run_info
         self.SmartAttacks = smart_attacks
         self.PagesVisited = pages_visited
+        self.StatusAnalysis = status_analysis
 
     @staticmethod
     def from_etree(elem):
@@ -236,11 +238,13 @@ class AssessmentRunData:
         smart_attacks = SmartAttacks.from_etree(elem.find('SmartAttacks'))
         pages_visited = PagesVisited.from_etree(elem.find('PagesVisited'))
 
+        status_analysis = process_nested_text_element(elem, 'ASMSummaryData.asmInfo.statusAnalysis')
+
         return AssessmentRunData(request_id, assessment_run_id,
                                  assessment_name,
                                  application_name, application_id,
                                  application_url, assessment_run_info,
-                                 smart_attacks, pages_visited)
+                                 smart_attacks, pages_visited, status_analysis)
 
 
 class Assessments(UserList):
