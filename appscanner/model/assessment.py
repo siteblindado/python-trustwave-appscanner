@@ -1,6 +1,8 @@
 from collections import UserList
 
+from lxml import etree
 
+from .helpers import process_text_element
 
 
 class Assessment:
@@ -13,14 +15,14 @@ class Assessment:
         self.ApplicationId = application_id
 
     @staticmethod
-    def from_etree(xml_etree):
-        assert isinstance(xml_etree, etree._Element)
+    def from_etree(elem):
+        assert isinstance(elem, etree._Element)
 
-        assessment_id = xml_etree.find('AssessmentId').text
-        assessment_name = xml_etree.find('AssessmentName').text
-        is_api_safe = bool(xml_etree.find('IsApiSafe').text)
-        url = xml_etree.find('Url').text
-        application_id = xml_etree.find('ApplicationId').text
+        assessment_id = process_text_element(elem.find('AssessmentId'))
+        assessment_name = process_text_element(elem.find('AssessmentName'))
+        is_api_safe = bool(elem.find('IsApiSafe').text)
+        url = process_text_element(elem.find('Url'))
+        application_id = process_text_element(elem.find('ApplicationId'))
 
         return Assessment(assessment_id, assessment_name, is_api_safe, url,
                           application_id)
