@@ -23,26 +23,16 @@ class TestsAssessment(unittest.TestCase):
 
 class TestsAssessments(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = open('test_files/Assessments.xml', 'rb').read()
+        valid_xml = open('test_files/assessments_by_app_id.xml', 'rb').read()
 
         assessments = Assessments.from_etree(etree.XML(valid_xml))
 
-        self.assertEqual('171ce949-eced-4ee1-8123-2d704f2d130b',
+        self.assertEqual('bb8c6a5d-b1fc-40ea-9c58-1d58efbdb023',
                          assessments[0].AssessmentId)
-        self.assertEqual('Site Blindado E-commerce',
+        self.assertEqual('E-commerce',
                          assessments[0].AssessmentName)
-        self.assertEqual(True, assessments[1].IsApiSafe)
-        self.assertEqual('https://www.mydomain.com.br/',
+        self.assertEqual(True, assessments[0].IsApiSafe)
+        self.assertEqual('http://www.mydomain.com.br',
                          assessments[0].Url)
-        self.assertEqual('f5cb1fa9-1e19-4557-a745-84f04d926c7d',
+        self.assertEqual('dcb434b9-8101-4a85-9bf5-57396b283c7e',
                          assessments[0].ApplicationId)
-
-        self.assertEqual('e531b427-aa1b-48df-af99-714f803b15ed',
-                         assessments[1].AssessmentId)
-        self.assertEqual('Site Blindado E-commerce - HIGH',
-                         assessments[1].AssessmentName)
-        self.assertEqual(True, assessments[1].IsApiSafe)
-        self.assertEqual('https://www.mydomain.com.br/',
-                         assessments[1].Url)
-        self.assertEqual('f5cb1fa9-1e19-4557-a745-84f04d926c7d',
-                         assessments[1].ApplicationId)

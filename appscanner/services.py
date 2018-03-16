@@ -1,14 +1,15 @@
 import datetime
 import os
-from lxml import etree
 
+from lxml import etree
 from tapioca_trustwave import Trustwave
 
 from appscanner.exceptions import AppscannerClientError
-from appscanner.model.assessment_runs import AssessmentRun, AssessmentRuns
+from appscanner.model import AssessmentRuns, AssessmentRunResults, AssessmentRun
 from .validators import validate_uuid4, validate_application_name
 
-yesterday = (datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime('%Y-%m-%dT%H:%MhZ')
+yesterday = (datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime(
+    '%Y-%m-%dT%H:%MhZ')
 
 server = os.environ.get('TRUSTWAVE_APPSCANNER_SERVER')
 client = os.environ.get('TRUSTWAVE_APPSCANNER_CLIENT')
@@ -26,7 +27,8 @@ def trim_encoding_declaration(xml):
 def application_exists(application_id):
     validate_uuid4(application_id)
 
-    request = api.get_application_id_by_name(application_id=application_id).get()
+    request = api.get_application_id_by_name(
+        application_id=application_id).get()
     application_data = request().data
 
     application_exists = application_data.get('application-exists')
@@ -36,7 +38,8 @@ def application_exists(application_id):
 def get_application_id_by_name(application_name):
     validate_application_name(application_name)
 
-    request = api.get_application_id_by_name(application_name=application_name).get()
+    request = api.get_application_id_by_name(
+        application_name=application_name).get()
     application_data = request().data
 
     application_id = application_data.get('application-id')
@@ -78,7 +81,9 @@ def get_assessment_status(application_id, assessment_id):
     return status
 
 
-def get_current_assessment_run_id(application_id, assessment_id, get_exclude_runs=False, start_date_time=yesterday):
+def get_current_assessment_run_id(application_id, assessment_id,
+                                  get_exclude_runs=False,
+                                  start_date_time=yesterday):
     validate_uuid4(application_id)
     validate_uuid4(assessment_id)
 
@@ -87,13 +92,16 @@ def get_current_assessment_run_id(application_id, assessment_id, get_exclude_run
         'startDateTime': start_date_time
     }
 
-    request = api.get_assessment_runs(application_id=application_id,
-                                      assessment_id=assessment_id).get(data=params)
+    request = api.get_assessment_runs(
+        application_id=application_id,
+        assessment_id=assessment_id
+    ).get(params=params)
     assessment_run_results_data = request().data
 
     status_code = assessment_run_results_data.get('status-code')
     if status_code == STATUS_OK:
-        assessment_run_results = trim_encoding_declaration(assessment_run_results_data.get('assessment-runs'))
+        assessment_run_results = trim_encoding_declaration(
+            assessment_run_results_data.get('assessment-runs'))
         run_info = AssessmentRuns.from_etree(etree.XML(assessment_run_results))
 
         for assessment_run in run_info.data:
@@ -112,7 +120,8 @@ def get_assessment_run_status(application_id, assessment_run_id):
                                             assessment_run_id=assessment_run_id).get()
     assessment_data = request().data
 
-    status = assessment_data.get('assessment-status')
+    status = AssessmentRun.from_etree(etree.XML(
+        trim_encoding_declaration(assessment_data.get('assessment-status'))))
 
     return status
 
@@ -125,9 +134,9 @@ def get_assessment_run_results(application_id, assessment_run_id):
                                       assessment_run_id=assessment_run_id).get()
     assessment_run_results_data = request().data
 
-    assessment_run_results = trim_encoding_declaration(
-        assessment_run_results_data.get('assessment-run-results')
-    )
+    assessment_run_results = AssessmentRunResults.from_etree(etree.XML(
+        trim_encoding_declaration(
+            assessment_run_results_data.get('assessment-run-results'))))
     return assessment_run_results
 
 

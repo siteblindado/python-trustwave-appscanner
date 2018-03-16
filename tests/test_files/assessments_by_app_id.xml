@@ -1,0 +1,9 @@
+<Assessments>
+  <Assessment>
+    <AssessmentId>bb8c6a5d-b1fc-40ea-9c58-1d58efbdb023</AssessmentId>
+    <AssessmentName>E-commerce</AssessmentName>
+    <IsApiSafe>True</IsApiSafe>
+    <Url>http://www.mydomain.com.br</Url>
+    <ApplicationId>dcb434b9-8101-4a85-9bf5-57396b283c7e</ApplicationId>
+  </Assessment>
+</Assessments>

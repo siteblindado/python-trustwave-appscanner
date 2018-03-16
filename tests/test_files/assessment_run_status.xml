@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<AssessmentRun>
+  <AssessmentRunId>08096586-09da-4697-a194-f0d5580ddde7</AssessmentRunId>
+  <StartTime>8/24/2017 6:29:29 PM</StartTime>
+  <EstimatedStartTime>8/23/2017 9:00:15 PM</EstimatedStartTime>
+  <EndTime>8/25/2017 2:13:50 AM</EndTime>
+  <Status>Complete</Status>
+  <PagesVisited>100</PagesVisited>
+  <TotalHARM>96</TotalHARM>
+  <ASMStatus/>
+  <Progress>100%</Progress>
+  <LowVulnerabilityScore>0</LowVulnerabilityScore>
+  <MedVulnerabilityScore>0</MedVulnerabilityScore>
+  <HighVulnerabilityScore>1</HighVulnerabilityScore>
+  <ApproximateHarmScore>96</ApproximateHarmScore>
+  <PagesSeen>76</PagesSeen>
+  <TimeElapsed>203 days 21 mins 27 secs</TimeElapsed>
+  <TimeRemaining>5 secs</TimeRemaining>
+  <AttackCount>12406</AttackCount>
+  <RequestCount>100</RequestCount>
+  <ShortText>99% Complete</ShortText>
+  <LongText>99% Complete, 203 days 21 mins 27 secs Elapsed, 100 requests, 12406 attacks, 1 Warning, 6 Information, Last Progress: 02:13:41:081 8/25/2017, Last Processing: https://www.vizzent.com.br/login, FI series 101; FI value 1 of 1; item 1 of 2</LongText>
+  <VulCount>0</VulCount>
+  <WarnCount>1</WarnCount>
+  <InfoCount>6</InfoCount>
+  <LastProgress>02:13:41:081 8/25/2017</LastProgress>
+  <LastProcessing>https://www.vizzent.com.br/login</LastProcessing>
+  <ChunkNumber>0</ChunkNumber>
+  <TotalChunks>0</TotalChunks>
+  <LowWarningScore>0</LowWarningScore>
+  <MedWarningScore>0</MedWarningScore>
+  <HighWarningScore>1</HighWarningScore>
+</AssessmentRun>

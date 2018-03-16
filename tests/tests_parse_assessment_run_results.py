@@ -24,7 +24,7 @@ class TestsAssessmentRunInfo(unittest.TestCase):
 
 class TestsSmartAttackInfo(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = '<Assessment PolicyId="67a127f2-85fc-4797-8092-d4fe2312acef" PolicyVersion="1.2" CenzicId="CPL0002110" Severity="Default" VulnerabilityIds="CWE-548"><SmartAttackName>Directory Browsing - [OWASP 2013 A 5]</SmartAttackName><Description>Directory Browsing is a vulnerability caused by unintentionally disclosing directory listings to users. The SmartAttack attempts to retrieve and identify such listings and reports them as vulnerabilities based on the assumption that the listings are unintended.</Description><TechnicalDescription>Directories on the web server or applications are typically locked down to prevent remote browsing when the directory contains executables, text files, documentation, or application-related install or configuration materials. In such cases either the entire directory is configured to block access, or access is granted on a per file basis, requiring a precise request to access objects in the directory. Directory listing can be prevented in server configuration files, but may also arise from vulnerability in a particular application.</TechnicalDescription><HowItWorks>The SmartAttack examines each page and attempts to access directory listing for the page by making an http request using the url of the parent directory of the page.</HowItWorks><Impact>If a Web application is vulnerable to directory browsing, an attacker can gain information about the web application by browsing directory listings that reveal files and folder hierarchy in the application. These resources may store sensitive information about web applications and operational systems, such as source code, credentials, internal network addressing, and so on which can be used to exploit vulnerabilities in the web application.</Impact><Remediation>Obtaining directory lists gives an attacker useful information when planning attacks against your server or your application. Follow these guidelines to prevent unintended information disclosure:</Remediation></Assessment>'
+        valid_xml = '<SmartAttackInfo PolicyId="67a127f2-85fc-4797-8092-d4fe2312acef" PolicyVersion="1.2" CenzicId="CPL0002110" Severity="Default"><SmartAttackName>Directory Browsing - [OWASP 2013 A 5]</SmartAttackName><Description>Directory Browsing is a vulnerability caused by unintentionally disclosing directory listings to users. The SmartAttack attempts to retrieve and identify such listings and reports them as vulnerabilities based on the assumption that the listings are unintended.</Description><TechnicalDescription>Directories on the web server or applications are typically locked down to prevent remote browsing when the directory contains executables, text files, documentation, or application-related install or configuration materials. In such cases either the entire directory is configured to block access, or access is granted on a per file basis, requiring a precise request to access objects in the directory. Directory listing can be prevented in server configuration files, but may also arise from vulnerability in a particular application.</TechnicalDescription><HowItWorks>The SmartAttack examines each page and attempts to access directory listing for the page by making an http request using the url of the parent directory of the page.</HowItWorks><Impact>If a Web application is vulnerable to directory browsing, an attacker can gain information about the web application by browsing directory listings that reveal files and folder hierarchy in the application. These resources may store sensitive information about web applications and operational systems, such as source code, credentials, internal network addressing, and so on which can be used to exploit vulnerabilities in the web application.</Impact><Remediation>Obtaining directory lists gives an attacker useful information when planning attacks against your server or your application. Follow these guidelines to prevent unintended information disclosure:</Remediation></SmartAttackInfo>'
 
         attack_info = SmartAttackInfo.from_etree(etree.XML(valid_xml))
 
@@ -32,10 +32,8 @@ class TestsSmartAttackInfo(unittest.TestCase):
         self.assertEqual("1.2", attack_info.PolicyVersion)
         self.assertEqual("CPL0002110", attack_info.CenzicId)
         self.assertEqual("Default", attack_info.Severity)
-        self.assertEqual("CWE-548", attack_info.VulnerabilityIds)
         self.assertEqual("Directory Browsing - [OWASP 2013 A 5]", attack_info.SmartAttackName)
         self.assertEqual("Directory Browsing is a vulnerability caused by unintentionally disclosing directory listings to users. The SmartAttack attempts to retrieve and identify such listings and reports them as vulnerabilities based on the assumption that the listings are unintended.", attack_info.Description)
-        self.assertEqual("Directories on the web server or applications are typically locked down to prevent remote browsing when the directory contains executables, text files, documentation, or application-related install or configuration materials. In such cases either the entire directory is configured to block access, or access is granted on a per file basis, requiring a precise request to access objects in the directory. Directory listing can be prevented in server configuration files, but may also arise from vulnerability in a particular application.", attack_info.TechnicalDescription)
         self.assertEqual("The SmartAttack examines each page and attempts to access directory listing for the page by making an http request using the url of the parent directory of the page.", attack_info.HowItWorks)
         self.assertEqual("If a Web application is vulnerable to directory browsing, an attacker can gain information about the web application by browsing directory listings that reveal files and folder hierarchy in the application. These resources may store sensitive information about web applications and operational systems, such as source code, credentials, internal network addressing, and so on which can be used to exploit vulnerabilities in the web application.", attack_info.Impact)
         self.assertEqual("Obtaining directory lists gives an attacker useful information when planning attacks against your server or your application. Follow these guidelines to prevent unintended information disclosure:", attack_info.Remediation)
@@ -88,21 +86,21 @@ class TestsPagesVisited(unittest.TestCase):
 
 class TestsAssessmentRunData(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = open('test_files/Assessment_run_results.xml', 'rb').read()
+        valid_xml = etree.parse('test_files/assessment_run_results.xml')
 
         assessment_run_data = AssessmentRunData.from_etree(
-            etree.XML(valid_xml).find('AssessmentRunData'))
+            valid_xml.find('AssessmentRunData'))
 
         self.assertEqual('', assessment_run_data.RequestId)
-        self.assertEqual("04f58082-605e-4bbc-b145-2610c4786c37",
+        self.assertEqual("31527314-aaba-4ade-9a93-061ce4225ea3",
                          assessment_run_data.AssessmentRunId)
-        self.assertEqual("Site Blindado E-commerce",
+        self.assertEqual("E-commerce",
                          assessment_run_data.AssessmentName)
         self.assertEqual("www.mydomain.com.br",
                          assessment_run_data.ApplicationName)
-        self.assertEqual("f5cb1fa9-1e19-4557-a745-84f04d926c7d",
+        self.assertEqual("dcb434b9-8101-4a85-9bf5-57396b283c7e",
                          assessment_run_data.ApplicationId)
-        self.assertEqual("https://www.mydomain.com.br/",
+        self.assertEqual("http://www.mydomain.com",
                          assessment_run_data.ApplicationUrl)
 
         self.assertIsInstance(assessment_run_data.AssessmentRunInfo,
