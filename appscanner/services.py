@@ -121,7 +121,7 @@ def get_assessment_run_status(application_id, assessment_run_id):
     assessment_data = request().data
 
     status = AssessmentRun.from_etree(etree.XML(
-        trim_encoding_declaration(assessment_data.get('assessment-status'))))
+        trim_encoding_declaration(assessment_data.get('assessment-run-status'))))
 
     return status
 
@@ -129,9 +129,14 @@ def get_assessment_run_status(application_id, assessment_run_id):
 def get_assessment_run_results(application_id, assessment_run_id):
     validate_uuid4(application_id)
     validate_uuid4(assessment_run_id)
-
-    request = api.get_assessment_runs(application_id=application_id,
-                                      assessment_run_id=assessment_run_id).get()
+    params = {
+        'getRequestResponseData': True,
+        'includePagesVisited': True,
+        'onlyDistinctPagesVisited': True,
+        'true&exportFormat': 'json'
+    }
+    request = api.get_assessment_run_results(application_id=application_id,
+                                             assessment_run_id=assessment_run_id).get(params=params)
     assessment_run_results_data = request().data
 
     assessment_run_results = AssessmentRunResults.from_etree(etree.XML(
