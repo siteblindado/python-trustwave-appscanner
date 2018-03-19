@@ -16,10 +16,11 @@ setup(
     long_description=long_description,
     author="Flávio Cardoso Ferreira Pontes",
     author_email="flavio.pontes@siteblindado.com.br",
-    url='https://github.com/siteblindado/python_trustwave_appscanner',
+    url='https://github.com/siteblindado/python-trustwave-appscanner',
     packages=[
         'appscanner',
     ],
+    python_requires='>=3.3',
     package_dir={'appscanner': 'appscanner'},
     package_data={
         '': ['LICENSE.txt', 'README.md', '*.xml', '*.xsd']
@@ -37,12 +38,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.1',
-        'Programming Language :: Python :: 3.2',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
