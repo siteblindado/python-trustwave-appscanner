@@ -133,7 +133,7 @@ def get_assessment_run_results(application_id, assessment_run_id):
         'getRequestResponseData': True,
         'includePagesVisited': True,
         'onlyDistinctPagesVisited': True,
-        'true&exportFormat': 'json'
+        'exportFormat': 'json'
     }
     request = api.get_assessment_run_results(application_id=application_id,
                                              assessment_run_id=assessment_run_id).get(params=params)
