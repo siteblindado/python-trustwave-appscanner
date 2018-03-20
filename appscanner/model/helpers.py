@@ -5,10 +5,10 @@ from datetime import datetime
 
 def process_nested_text_element(root, path):
     elem = root
-    for dir in path.split('.'):
-        if not elem.find(dir):
+    for path_elem in path.split('.'):
+        if elem.find(path_elem) is None:
             return None
-        elem = elem.find(dir)
+        elem = elem.find(path_elem)
     return process_text_element(elem)
 
 

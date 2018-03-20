@@ -23,7 +23,7 @@ class TestsAssessment(unittest.TestCase):
 
 class TestsAssessments(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = open('test_files/assessments_by_app_id.xml', 'rb').read()
+        valid_xml = open('tests/test_files/assessments_by_app_id.xml', 'rb').read()
 
         assessments = Assessments.from_etree(etree.XML(valid_xml))
 

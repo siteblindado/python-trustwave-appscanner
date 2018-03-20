@@ -27,7 +27,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        'tapioca-trustwave-appscanner',
+        'tapioca-trustwave-appscanner==0.6',
         'lxml==4.1.1'
     ],
     license="MIT",

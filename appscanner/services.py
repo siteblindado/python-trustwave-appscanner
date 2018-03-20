@@ -11,12 +11,16 @@ from .validators import validate_uuid4, validate_application_name
 yesterday = (datetime.datetime.utcnow() - datetime.timedelta(days=1)).strftime(
     '%Y-%m-%dT%H:%MhZ')
 
-server = os.environ.get('TRUSTWAVE_APPSCANNER_SERVER')
-client = os.environ.get('TRUSTWAVE_APPSCANNER_CLIENT')
-customer = os.environ.get('TRUSTWAVE_APPSCANNER_CUSTOMER')
-
-api = Trustwave(server=server, client=client, customer=customer)
+server_env = os.environ.get('TRUSTWAVE_APPSCANNER_SERVER')
+client_env = os.environ.get('TRUSTWAVE_APPSCANNER_CLIENT')
+customer_env = os.environ.get('TRUSTWAVE_APPSCANNER_CUSTOMER')
 STATUS_OK = 0
+
+
+def create_api_client(server=server_env, client=client_env,
+                      customer=customer_env):
+    api = Trustwave(server=server, client=client, customer=customer)
+    return api
 
 
 def trim_encoding_declaration(xml):
@@ -24,10 +28,10 @@ def trim_encoding_declaration(xml):
     return ''.join(lines[1:]) if 'encoding' in lines[0] else ''.join(lines)
 
 
-def application_exists(application_id):
+def application_exists(api, application_id):
     validate_uuid4(application_id)
 
-    request = api.get_application_id_by_name(
+    request = api.check_if_application_exists(
         application_id=application_id).get()
     application_data = request().data
 
@@ -35,7 +39,7 @@ def application_exists(application_id):
     return application_exists
 
 
-def get_application_id_by_name(application_name):
+def get_application_id_by_name(api, application_name):
     validate_application_name(application_name)
 
     request = api.get_application_id_by_name(
@@ -46,7 +50,7 @@ def get_application_id_by_name(application_name):
     return application_id
 
 
-def assessment_exists(application_id, assessment_id):
+def assessment_exists(api, application_id, assessment_id):
     validate_uuid4(application_id)
     validate_uuid4(assessment_id)
 
@@ -58,7 +62,7 @@ def assessment_exists(application_id, assessment_id):
     return assessment_exists
 
 
-def get_assessment_id_by_name(application_id, assessment_name):
+def get_assessment_id_by_name(api, application_id, assessment_name):
     validate_uuid4(application_id)
 
     request = api.get_assessment_id_by_name(application_id=application_id,
@@ -69,7 +73,7 @@ def get_assessment_id_by_name(application_id, assessment_name):
     return assessment_id
 
 
-def get_assessment_status(application_id, assessment_id):
+def get_assessment_status(api, application_id, assessment_id):
     validate_uuid4(application_id)
     validate_uuid4(assessment_id)
 
@@ -81,7 +85,7 @@ def get_assessment_status(application_id, assessment_id):
     return status
 
 
-def get_current_assessment_run_id(application_id, assessment_id,
+def get_current_assessment_run_id(api, application_id, assessment_id,
                                   get_exclude_runs=False,
                                   start_date_time=yesterday):
     validate_uuid4(application_id)
@@ -112,7 +116,7 @@ def get_current_assessment_run_id(application_id, assessment_id,
     return None
 
 
-def get_assessment_run_status(application_id, assessment_run_id):
+def get_assessment_run_status(api, application_id, assessment_run_id):
     validate_uuid4(application_id)
     validate_uuid4(assessment_run_id)
 
@@ -126,7 +130,7 @@ def get_assessment_run_status(application_id, assessment_run_id):
     return status
 
 
-def get_assessment_run_results(application_id, assessment_run_id):
+def get_assessment_run_results(api, application_id, assessment_run_id):
     validate_uuid4(application_id)
     validate_uuid4(assessment_run_id)
     params = {
@@ -144,7 +148,7 @@ def get_assessment_run_results(application_id, assessment_run_id):
     return assessment_run_results
 
 
-def queue_assessment(application_id, assessment_id, test_only=False):
+def queue_assessment(api, application_id, assessment_id, test_only=False):
     validate_uuid4(application_id)
     validate_uuid4(assessment_id)
 

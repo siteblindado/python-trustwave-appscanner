@@ -86,7 +86,7 @@ class TestsPagesVisited(unittest.TestCase):
 
 class TestsAssessmentRunData(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = etree.parse('test_files/assessment_run_results.xml')
+        valid_xml = etree.parse('tests/test_files/assessment_run_results.xml')
 
         assessment_run_data = AssessmentRunData.from_etree(
             valid_xml.find('AssessmentRunData'))

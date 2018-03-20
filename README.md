@@ -13,8 +13,10 @@ Usage
 
 The library exposes some functions that can return Python objects representing the XML response, strings or booleans.
 
-Simple functions that return strings or booleans include: `application_exists`, `get_application_id_by_name`, `assessment_exists`, `get_assessment_id_by_name`.
+Boolean functions are: `application_exists`, `assessment_exists`
 
-Complex functions that return objects are: `get_assessment_status`, `get_current_assessment_run_id`, `get_assessment_run_status`, `get_assessment_run_results`
+String functions are: `get_application_id_by_name`, `get_assessment_status`, `get_current_assessment_run_id`
 
-Last but not least the is the execution function that queues an assessment for execution: `queue_assessment`
+`get_assessment_run_status` returns an `AssessmentRun` object,
+
+``
