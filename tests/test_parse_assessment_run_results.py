@@ -9,7 +9,12 @@ from appscanner.model.assessment_run_result import AssessmentRunInfo, SmartAttac
 
 class TestsAssessmentRunInfo(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = '<AssessmentRunInfo><HarmScore>0</HarmScore><RiskFactor>1</RiskFactor><Status>Complete</Status><AttackCount>315550</AttackCount><MaxPagesVisited>100</MaxPagesVisited><StartTime>09/26/2017 17:26:02</StartTime><EndTime>09/26/2017 23:53:06</EndTime></AssessmentRunInfo>'
+        valid_xml = '<AssessmentRunInfo><HarmScore>0</HarmScore>' \
+                    '<RiskFactor>1</RiskFactor><Status>Complete</Status>' \
+                    '<AttackCount>315550</AttackCount><MaxPagesVisited>100' \
+                    '</MaxPagesVisited><StartTime>09/26/2017 17:26:02' \
+                    '</StartTime><EndTime>09/26/2017 23:53:06</EndTime>' \
+                    '</AssessmentRunInfo>'
 
         run_info = AssessmentRunInfo.from_etree(etree.XML(valid_xml))
 
@@ -24,37 +29,110 @@ class TestsAssessmentRunInfo(unittest.TestCase):
 
 class TestsSmartAttackInfo(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = '<SmartAttackInfo PolicyId="67a127f2-85fc-4797-8092-d4fe2312acef" PolicyVersion="1.2" CenzicId="CPL0002110" Severity="Default"><SmartAttackName>Directory Browsing - [OWASP 2013 A 5]</SmartAttackName><Description>Directory Browsing is a vulnerability caused by unintentionally disclosing directory listings to users. The SmartAttack attempts to retrieve and identify such listings and reports them as vulnerabilities based on the assumption that the listings are unintended.</Description><TechnicalDescription>Directories on the web server or applications are typically locked down to prevent remote browsing when the directory contains executables, text files, documentation, or application-related install or configuration materials. In such cases either the entire directory is configured to block access, or access is granted on a per file basis, requiring a precise request to access objects in the directory. Directory listing can be prevented in server configuration files, but may also arise from vulnerability in a particular application.</TechnicalDescription><HowItWorks>The SmartAttack examines each page and attempts to access directory listing for the page by making an http request using the url of the parent directory of the page.</HowItWorks><Impact>If a Web application is vulnerable to directory browsing, an attacker can gain information about the web application by browsing directory listings that reveal files and folder hierarchy in the application. These resources may store sensitive information about web applications and operational systems, such as source code, credentials, internal network addressing, and so on which can be used to exploit vulnerabilities in the web application.</Impact><Remediation>Obtaining directory lists gives an attacker useful information when planning attacks against your server or your application. Follow these guidelines to prevent unintended information disclosure:</Remediation></SmartAttackInfo>'
+        valid_xml = '<SmartAttackInfo ' \
+                    'PolicyId="67a127f2-85fc-4797-8092-d4fe2312acef" ' \
+                    'PolicyVersion="1.2" CenzicId="CPL0002110" ' \
+                    'Severity="Default"><SmartAttackName>Directory Browsing ' \
+                    '- [OWASP 2013 A 5]</SmartAttackName><Description>' \
+                    'Directory Browsing is a vulnerability caused by ' \
+                    'unintentionally disclosing directory listings to users. ' \
+                    'The SmartAttack attempts to retrieve and identify such ' \
+                    'listings and reports them as vulnerabilities based on ' \
+                    'the assumption that the listings are unintended.' \
+                    '</Description><TechnicalDescription>Directories on the ' \
+                    'web server or applications are typically locked down ' \
+                    'to prevent remote browsing when the directory contains ' \
+                    'executables, text files, documentation, or ' \
+                    'application-related install or configuration materials. ' \
+                    'In such cases either the entire directory is configured ' \
+                    'to block access, or access is granted on a per file ' \
+                    'basis, requiring a precise request to access objects in ' \
+                    'the directory. Directory listing can be prevented in ' \
+                    'server configuration files, but may also arise from ' \
+                    'vulnerability in a particular application.' \
+                    '</TechnicalDescription><HowItWorks>The SmartAttack ' \
+                    'examines each page and attempts to access directory ' \
+                    'listing for the page by making an http request using ' \
+                    'the url of the parent directory of the page.' \
+                    '</HowItWorks><Impact>If a Web application is vulnerable ' \
+                    'to directory browsing, an attacker can gain information ' \
+                    'about the web application by browsing directory ' \
+                    'listings that reveal files and folder hierarchy in the ' \
+                    'application. These resources may store sensitive ' \
+                    'information about web applications and operational ' \
+                    'systems, such as source code, credentials, internal ' \
+                    'network addressing, and so on which can be used to ' \
+                    'exploit vulnerabilities in the web application.' \
+                    '</Impact><Remediation>Obtaining directory lists gives ' \
+                    'an attacker useful information when planning attacks ' \
+                    'against your server or your application. Follow these ' \
+                    'guidelines to prevent unintended information disclosure:' \
+                    '</Remediation></SmartAttackInfo>'
 
         attack_info = SmartAttackInfo.from_etree(etree.XML(valid_xml))
 
-        self.assertEqual("67a127f2-85fc-4797-8092-d4fe2312acef", attack_info.PolicyId)
+        self.assertEqual("67a127f2-85fc-4797-8092-d4fe2312acef",
+                         attack_info.PolicyId)
         self.assertEqual("1.2", attack_info.PolicyVersion)
         self.assertEqual("CPL0002110", attack_info.CenzicId)
         self.assertEqual("Default", attack_info.Severity)
-        self.assertEqual("Directory Browsing - [OWASP 2013 A 5]", attack_info.SmartAttackName)
-        self.assertEqual("Directory Browsing is a vulnerability caused by unintentionally disclosing directory listings to users. The SmartAttack attempts to retrieve and identify such listings and reports them as vulnerabilities based on the assumption that the listings are unintended.", attack_info.Description)
-        self.assertEqual("The SmartAttack examines each page and attempts to access directory listing for the page by making an http request using the url of the parent directory of the page.", attack_info.HowItWorks)
-        self.assertEqual("If a Web application is vulnerable to directory browsing, an attacker can gain information about the web application by browsing directory listings that reveal files and folder hierarchy in the application. These resources may store sensitive information about web applications and operational systems, such as source code, credentials, internal network addressing, and so on which can be used to exploit vulnerabilities in the web application.", attack_info.Impact)
-        self.assertEqual("Obtaining directory lists gives an attacker useful information when planning attacks against your server or your application. Follow these guidelines to prevent unintended information disclosure:", attack_info.Remediation)
+        self.assertEqual("Directory Browsing - [OWASP 2013 A 5]",
+                         attack_info.SmartAttackName)
+        self.assertEqual("Directory Browsing is a vulnerability caused by "
+                         "unintentionally disclosing directory listings to "
+                         "users. The SmartAttack attempts to retrieve and "
+                         "identify such listings and reports them as "
+                         "vulnerabilities based on the assumption that the "
+                         "listings are unintended.", attack_info.Description)
+        self.assertEqual("The SmartAttack examines each page and attempts to "
+                         "access directory listing for the page by making an "
+                         "http request using the url of the parent directory "
+                         "of the page.", attack_info.HowItWorks)
+        self.assertEqual("If a Web application is vulnerable to directory "
+                         "browsing, an attacker can gain information about "
+                         "the web application by browsing directory listings "
+                         "that reveal files and folder hierarchy in the "
+                         "application. These resources may store sensitive "
+                         "information about web applications and operational "
+                         "systems, such as source code, credentials, internal "
+                         "network addressing, and so on which can be used to "
+                         "exploit vulnerabilities in the web application.",
+                         attack_info.Impact)
+        self.assertEqual("Obtaining directory lists gives an attacker useful "
+                         "information when planning attacks against your "
+                         "server or your application. Follow these guidelines "
+                         "to prevent unintended information disclosure:",
+                         attack_info.Remediation)
 
 
 class TestsReportItem(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = '<ReportItem Id="3040478"><ReportItemType>Pass</ReportItemType><ReportItemCreateDate>9/26/2017 11:52:52 PM</ReportItemCreateDate><Severity>Medium</Severity><HarmScore>160</HarmScore><CVSSBaseScore/><ComputedHarmScore>0</ComputedHarmScore><Count>1</Count><Message>No directory listings found.</Message><GlobalizedMessage>czTranslate{3686053274}</GlobalizedMessage><Url/><TraversalName>[Default Spider]</TraversalName><Filtered>0</Filtered><HttpRequest/><HttpResponse/><StructuredData/></ReportItem>'
+        valid_xml = '<ReportItem Id="3040478"><ReportItemType>Pass' \
+                    '</ReportItemType><ReportItemCreateDate>9/26/2017 ' \
+                    '11:52:52 PM</ReportItemCreateDate><Severity>Medium' \
+                    '</Severity><HarmScore>160</HarmScore><CVSSBaseScore/>' \
+                    '<ComputedHarmScore>0</ComputedHarmScore><Count>1</Count>' \
+                    '<Message>No directory listings found.</Message>' \
+                    '<GlobalizedMessage>czTranslate{3686053274}' \
+                    '</GlobalizedMessage><Url/><TraversalName>' \
+                    '[Default Spider]</TraversalName><Filtered>0</Filtered>' \
+                    '<HttpRequest/><HttpResponse/><StructuredData/>' \
+                    '</ReportItem>'
 
         report_item = ReportItem.from_etree(etree.XML(valid_xml))
 
         self.assertEqual("3040478", report_item.Id)
         self.assertEqual("Pass", report_item.ReportItemType)
-        self.assertEqual(datetime(2017, 9, 26, 23, 52, 52), report_item.ReportItemCreateDate)
+        self.assertEqual(datetime(2017, 9, 26, 23, 52, 52),
+                         report_item.ReportItemCreateDate)
         self.assertEqual("Medium", report_item.Severity)
         self.assertEqual(160, report_item.HarmScore)
         self.assertEqual(None, report_item.CVSSBaseScore)
         self.assertEqual(0, report_item.ComputedHarmScore)
         self.assertEqual(1, report_item.Count)
         self.assertEqual("No directory listings found.", report_item.Message)
-        self.assertEqual("czTranslate{3686053274}", report_item.GlobalizedMessage)
+        self.assertEqual("czTranslate{3686053274}",
+                         report_item.GlobalizedMessage)
         self.assertEqual(None, report_item.Url)
         self.assertEqual("[Default Spider]", report_item.TraversalName)
         self.assertEqual(0, report_item.Filtered)
@@ -74,13 +152,16 @@ class TestsCategory(unittest.TestCase):
 
 class TestsPagesVisited(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = '<PagesVisited><Url>www.mydomain.com.br/</Url><Url>www.mydomain.com.br/ProdutoBusca/Busca-site</Url><Url>www.mydomain.com.br/login</Url></PagesVisited>'
+        valid_xml = '<PagesVisited><Url>www.mydomain.com.br/</Url>' \
+                    '<Url>www.mydomain.com.br/ProdutoBusca/Busca-site</Url>' \
+                    '<Url>www.mydomain.com.br/login</Url></PagesVisited>'
 
         pages_visited = PagesVisited.from_etree(etree.XML(valid_xml))
 
         self.assertEqual(3, len(pages_visited))
         self.assertEqual('www.mydomain.com.br/', pages_visited[0])
-        self.assertEqual('www.mydomain.com.br/ProdutoBusca/Busca-site', pages_visited[1])
+        self.assertEqual('www.mydomain.com.br/ProdutoBusca/Busca-site',
+                         pages_visited[1])
         self.assertEqual('www.mydomain.com.br/login', pages_visited[2])
 
 

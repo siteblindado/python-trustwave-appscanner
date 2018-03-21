@@ -7,7 +7,12 @@ from appscanner.model.assessment import Assessment, Assessments
 
 class TestsAssessment(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = "<Assessment><AssessmentId>e531b427-aa1b-48df-af99-714f803b15ed</AssessmentId><AssessmentName>Site Blindado E-commerce - HIGH</AssessmentName><IsApiSafe>True</IsApiSafe><Url>https://www.mydomain.com.br/</Url><ApplicationId>f5cb1fa9-1e19-4557-a745-84f04d926c7d</ApplicationId></Assessment>"
+        valid_xml = '<Assessment><AssessmentId>e531b427-aa1b-48df-af99-714f80' \
+                    '3b15ed</AssessmentId><AssessmentName>Site Blindado' \
+                    ' E-commerce - HIGH</AssessmentName><IsApiSafe>True' \
+                    '</IsApiSafe><Url>https://www.mydomain.com.br/</Url>' \
+                    '<ApplicationId>f5cb1fa9-1e19-4557-a745-84f04d926c7d' \
+                    '</ApplicationId></Assessment>'
 
         assessment = Assessment.from_etree(etree.XML(valid_xml))
 
@@ -23,7 +28,8 @@ class TestsAssessment(unittest.TestCase):
 
 class TestsAssessments(unittest.TestCase):
     def test_create_from_valid_xml(self):
-        valid_xml = open('tests/test_files/assessments_by_app_id.xml', 'rb').read()
+        valid_xml = open(
+            'tests/test_files/assessments_by_app_id.xml', 'rb').read()
 
         assessments = Assessments.from_etree(etree.XML(valid_xml))
 
