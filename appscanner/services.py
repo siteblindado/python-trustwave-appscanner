@@ -109,7 +109,38 @@ def get_current_assessment_run_id(api, application_id, assessment_id,
         run_info = AssessmentRuns.from_etree(etree.XML(assessment_run_results))
 
         for assessment_run in run_info.data:
-            if assessment_run.Status == 'running':
+            if assessment_run.Status.lower() == 'running':
+                oldest_assessment_run_id = assessment_run.AssessmentRunId
+                return oldest_assessment_run_id
+
+    return None
+
+
+def get_last_incomplete_assessment_run_id(api, application_id, assessment_id,
+                                         get_exclude_runs=False,
+                                         start_date_time=yesterday):
+    validate_uuid4(application_id)
+    validate_uuid4(assessment_id)
+
+    params = {
+        'getExcludedRuns': get_exclude_runs,
+        'startDateTime': start_date_time
+    }
+
+    request = api.get_assessment_runs(
+        application_id=application_id,
+        assessment_id=assessment_id
+    ).get(params=params)
+    assessment_run_results_data = request().data
+
+    status_code = assessment_run_results_data.get('status-code')
+    if status_code == STATUS_OK:
+        assessment_run_results = trim_encoding_declaration(
+            assessment_run_results_data.get('assessment-runs'))
+        run_info = AssessmentRuns.from_etree(etree.XML(assessment_run_results))
+
+        for assessment_run in reversed(run_info.data):
+            if assessment_run.Status.lower() == 'incomplete':
                 oldest_assessment_run_id = assessment_run.AssessmentRunId
                 return oldest_assessment_run_id
 
