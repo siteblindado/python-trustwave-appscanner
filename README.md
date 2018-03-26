@@ -17,6 +17,4 @@ Boolean functions are: `application_exists`, `assessment_exists`
 
 String functions are: `get_application_id_by_name`, `get_assessment_status`, `get_current_assessment_run_id`
 
-`get_assessment_run_status` returns an `AssessmentRun` object,
-
-``
+`get_assessment_run_status` returns an `AssessmentRun` object
