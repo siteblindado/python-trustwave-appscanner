@@ -193,7 +193,7 @@ def queue_assessment(api, application_id, assessment_id, test_only=False):
         request = request.put(data=params)
         assessment_data = request().data
     except Exception as e:
-        raise AppscannerClientError
+        raise AppscannerClientError(e)
 
     status = assessment_data.get('status-code')
     return status
