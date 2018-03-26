@@ -2,7 +2,8 @@ import unittest
 import requests_mock
 
 from appscanner.services import create_api_client, get_application_id_by_name,\
-    application_exists, assessment_exists, get_assessment_id_by_name
+    application_exists, assessment_exists, get_assessment_id_by_name,\
+    get_current_assessment_run_id, get_last_incomplete_assessment_run_id
 
 
 class TestServices(unittest.TestCase):
@@ -70,3 +71,34 @@ class TestServices(unittest.TestCase):
                                           self.assessment_name)
             )
 
+    def test_get_current_assessment_run_id(self):
+        service_path = '/application/{application_id}/assessment/' \
+                       '{assessment_id}/runs'
+        service_uri = self.base_uri + service_path
+
+        with requests_mock.Mocker() as m:
+            with open('tests/test_files/assessment_runs.json') as f:
+                m.get(service_uri.format(application_id=self.application_id,
+                                         assessment_id=self.assessment_id),
+                      text=f.read())
+                self.assertEqual(
+                    '2bb90735-38d2-44d5-8b39-0d29671de5bd',
+                    get_current_assessment_run_id(self.api, self.application_id,
+                                                  self.assessment_id)
+                )
+
+    def test_get_last_incomplete_assessment_run_id(self):
+        service_path = '/application/{application_id}/assessment/' \
+                       '{assessment_id}/runs'
+        service_uri = self.base_uri + service_path
+
+        with requests_mock.Mocker() as m:
+            with open('tests/test_files/assessment_runs.json') as f:
+                m.get(service_uri.format(application_id=self.application_id,
+                                         assessment_id=self.assessment_id),
+                      text=f.read())
+                self.assertEqual(
+                    'ee20f776-83eb-485b-a364-93682362a3fb',
+                    get_last_incomplete_assessment_run_id(
+                        self.api, self.application_id, self.assessment_id)
+                )
