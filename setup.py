@@ -10,7 +10,7 @@ except:
 
 setup(
     name='python-trustwave-appscanner',
-    version="0.1.7.dev",
+    version="0.1.8",
     description='A wrapper around the tapioca-trustwave-appscanner for'
                 ' translating the Appscanner API documents into Python Objects',
     long_description=long_description,

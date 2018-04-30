@@ -1,6 +1,6 @@
 import unittest
 import requests_mock
-from pytest import skip
+from unittest import skip
 
 from appscanner.services import create_api_client, get_application_id_by_name,\
     application_exists, assessment_exists, get_assessment_id_by_name,\
@@ -100,6 +100,7 @@ class TestServices(unittest.TestCase):
                 get_application_id_by_name(self.api, 'my_application')
             )
 
+    @skip("Not ready yet")
     def test_get_assessment_run_status(self):
         service_path = '/application/{application_id}/assessmentrun/' \
                        '{assessment_run_id}/status'
