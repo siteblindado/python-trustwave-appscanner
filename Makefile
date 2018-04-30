@@ -31,6 +31,5 @@ release: clean
 	twine upload dist/*
 
 dist: clean
-	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist

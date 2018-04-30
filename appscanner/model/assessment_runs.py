@@ -46,6 +46,9 @@ class AssessmentRun:
         self.MedWarningScore = MedWarningScore
         self.HighWarningScore = HighWarningScore
 
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
+
     @staticmethod
     def from_etree(elem):
         assert isinstance(elem, etree._Element)

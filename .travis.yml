@@ -1,10 +1,18 @@
 language: python
 python:
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
 install:
-  - pip install .
+- pip install .
 script:
-  - python setup.py test
+- python setup.py test
+deploy:
+  provider: pypi
+  user: siteblindado
+  distributions: "bdist_wheel"
+  password:
+    secure: S2oWnRn8hGtL53XnfYfqjJHS/ldunfGz9Sfs46enfUlmtFJQT8ODdGBwQtughFapYUWeGqPO0BvoetbxBdrqk6ZZrFCYwTcytBBGm7MQxAT3zpg61zYuV28//YvHHlI1mVqVCqyM45sFQ4PNfAjb4etvxGsNvR4e2pceBC50O5CM1L3334HhUFnS4fEll30Dhl/1U/llKhlD0eFIxHzG4mo7e8QB0TtKfAK6J5Yw1ucP9L0m0wbekiemdcplzIrwRhWaJ+kU2hwpFFy5OHDzk+Q0rESl4aYp2MfKnUKtbZze41Q7Bl7dP9XirtbF4HkZCW1dcQ8FZrYCaqcL5Qf5wB47upx6O7TOj/UHrlnIBY8UI/NYQVB7C+Y1tDIBxcfsBTG66e18qVQWhHZKIR6iQthBZArnOThGzSz/EotQKl4g6dsjFWBJRjIjLoW9Do6jwUYgZmtrlFd3SApCoOuVuSin/v2brfnUoMLzy043H3930HBtgFxzsbpX5An9MxUlzGi1PyEmRdyqB4Ogf10ya9I023cFu8Ps8aDMtXxGxsb1qwNCLcsTXyZd9ENU/35nRrpoADhjVf+NkaB81MZX7m9U1F7vsurcnlX+AFAp5zO7LdiSCRAismCTTEOvs2PLbah9UnjXxWMlRx9io6ZXXpaOmn9JzcU5gNmbq7Hd+58=
+  on:
+    tags: true

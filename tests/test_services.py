@@ -1,8 +1,10 @@
 import unittest
 import requests_mock
+from pytest import skip
 
 from appscanner.services import create_api_client, get_application_id_by_name,\
-    application_exists, assessment_exists, get_assessment_id_by_name
+    application_exists, assessment_exists, get_assessment_id_by_name,\
+    get_assessment_status
 
 
 class TestServices(unittest.TestCase):
@@ -70,3 +72,39 @@ class TestServices(unittest.TestCase):
                                           self.assessment_name)
             )
 
+    def test_get_assessment_status(self):
+        service_path = '/application/{application_id}/assessment/' \
+                       '{assessment_id}/status'
+        service_uri = self.base_uri + service_path
+
+        with requests_mock.Mocker() as m:
+            m.get(service_uri.format(application_id=self.application_id,
+                                     assessment_id=self.assessment_id),
+                  text='{"status-code":0,"assessment-status":"running"}')
+            self.assertEqual(
+                'running',
+                get_assessment_status(self.api, self.application_id,
+                                      self.assessment_id))
+
+    @skip("Not ready yet")
+    def test_get_current_assessment_run_id(self):
+        service_path = '/application/{application_name}/id'
+        service_uri = self.base_uri + service_path
+        with requests_mock.Mocker() as m:
+            with open('tests/test_files/assessment_runs.json') as f:
+                m.get(service_uri.format(application_name='my_application'),
+                      text=f.read())
+
+            self.assertEqual(
+                'dcb434b9-8101-4a85-9bf5-57396b283c7e',
+                get_application_id_by_name(self.api, 'my_application')
+            )
+
+    def test_get_assessment_run_status(self):
+        service_path = '/application/{application_id}/assessmentrun/' \
+                       '{assessment_run_id}/status'
+        service_uri = self.base_uri + service_path
+        with requests_mock.Mocker() as m:
+            with open('tests/test_files/assessment_runs.json') as f:
+                m.get(service_uri.format(application_name='my_application'),
+                      text=f.read())
