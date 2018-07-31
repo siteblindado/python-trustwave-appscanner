@@ -207,3 +207,13 @@ def create_application(api, params):
         return request.data()
     except Exception as e:
         raise AppscannerClientError(e)
+
+
+def create_assessment(api, application_id, params):
+    create_assessment_ = api.create_assessment(application_id=application_id)
+
+    try:
+        request = create_assessment_.post(data=params)
+        return request.data()
+    except Exception as e:
+        raise AppscannerClientError(e)
