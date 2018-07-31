@@ -197,3 +197,13 @@ def queue_assessment(api, application_id, assessment_id, test_only=False):
 
     status = assessment_data.get('status-code')
     return status
+
+
+def create_application(api, params):
+    create_app = api.create_application()
+
+    try:
+        request = create_app.post(data=params)
+        return request.data()
+    except Exception as e:
+        raise AppscannerClientError(e)
