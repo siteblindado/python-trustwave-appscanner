@@ -3,7 +3,7 @@
 Python Trustwave Appscanner
 ===========================
 [![Build Status](https://travis-ci.org/siteblindado/python-trustwave-appscanner.svg?branch=master)](https://travis-ci.org/siteblindado/python-trustwave-appscanner#)
-[![Current version at PyPI](https://img.shields.io/pypi/v/python-trustwave-appscanner.svg)](https://pypi.python.org/pypi/simple_json_log_formatter)
+[![Current version at PyPI](https://img.shields.io/pypi/v/python-trustwave-appscanner.svg)](https://pypi.python.org/pypi/python-trustwave-appscanner)
 
 
 Python Trustwave Appscanner transforms Appscanner REST API results into Plain Python Objects for easier processing.
