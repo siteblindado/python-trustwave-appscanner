@@ -29,7 +29,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'tapioca-trustwave-appscanner==0.7',
-        'lxml==4.2.1'
+        'lxml==4.6.5'
     ],
     license="MIT",
     zip_safe=False,
